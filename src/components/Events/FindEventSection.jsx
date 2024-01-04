@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchEvents } from '../../util/http';
 import ErrorBlock from '../UI/ErrorBlock';
 import EventItem from './EventItem';
+import LoadingIndicator from '../UI/LoadingIndicator';
 
 export default function FindEventSection() {
   const searchElement = useRef();
@@ -10,7 +11,7 @@ export default function FindEventSection() {
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["events", { search: searchTerm }],
-    queryFn: () => fetchEvents(searchTerm)
+    queryFn: ({ signal }) => fetchEvents({ signal, searchTerm })
   })
 
   function handleSubmit(event) {
